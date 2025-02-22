@@ -1,0 +1,25 @@
+import "reflect-metadata";
+import { DataSource } from "typeorm";
+import { config } from "dotenv";
+import { User } from "../models/User";
+import { Property } from "../models/Property";
+import { Booking } from "../models/Booking";
+// import { Review } from "../models/Review";
+config();
+export const AppDataSource = new DataSource({
+  type: "postgres",
+  url: process.env.DATABASE_URL,
+  synchronize: false,
+  logging: false,
+  entities: [User, Property, Booking],
+ 
+});
+
+//initialize the database
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Database initialized");
+  })
+  .catch((err) => {
+    console.error("Error initializing database", err);
+  });
